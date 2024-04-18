@@ -6,7 +6,7 @@ function sign(payload, isAccesToken){
     return jwt.sign(
         payload, 
         isAccesToken
-            ? process.env.ACCES_TOKEN_SECRET
+            ? process.env.ACCESS_TOKEN_SECRET
             : process.env.REFRESH_TOKEN_SECRET, 
         {
             expiresIn: 3600,
