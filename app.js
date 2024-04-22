@@ -30,6 +30,7 @@ app.use("/api/user", require("./routes/user"));
 app.use("/api/refresh-token", require("./routes/refreshToken"));
 app.use("/api/signout", require("./routes/signout"));
 app.use("/api/blog", postRoutes);
+app.use("/api/foro", require("./routes/foro"));
 
 
 // Inicia el servidor
