@@ -1,32 +1,39 @@
+// Importa Express y otros módulos necesarios
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const mongoose = require("mongoose");
-const authenticate = require("./auth/authenticate");
+const app = express();
 
+// Importa el enrutador para las rutas de los posts
+const postRoutes = require("./routes/blog");
+
+// Configuración
 require("dotenv").config();
- const port = 3100;
+const port = process.env.PORT || 3100;
 
- app.use(cors());
- app.use(express.json());
+// Middleware
 
+
+// Función principal para conectar a MongoDB
 async function main(){
    await mongoose.connect(process.env.DB_CONNECTION_STRING);
-   console.log("Connected to MongoDB");
+   console.log("Conectado a MongoDB");
 }
- main().catch(console.error);
+main().catch(console.error);
 
- app.use("/api/registrarse", require("./routes/registrarse"));
- app.use("/api/login", require("./routes/login"));
- app.use("/api/user", require("./routes/user"));
- app.use("/api/refresh-token", require("./routes/refreshToken"));
- app.use("/api/signout", require("./routes/signout"));
+// Rutas
+app.use(cors());
+app.use(express.json());
+app.use("/api/registrarse", require("./routes/registrarse"));
+app.use("/api/login", require("./routes/login"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/refresh-token", require("./routes/refreshToken"));
+app.use("/api/signout", require("./routes/signout"));
+app.use("/api/blog", postRoutes);
+app.use("/api/foro", require("./routes/foro"));
 
- app.get("/", (req, res) => {
-    res.send("hello world");
- });
 
- app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
- });
-
+// Inicia el servidor
+app.listen(port, () => {
+    console.log(`El servidor está en ejecución en el puerto: ${port}`);
+});
