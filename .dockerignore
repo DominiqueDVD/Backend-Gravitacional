@@ -1,0 +1,7 @@
+# Añadir archivos para que al momento de construir la imagen docker no queden almacenados en la misma
+# https://docs.docker.com/build/building/context/#dockerignore-files
+/node_modules/
+*.md
+.gitignore
+Dockerfile
+/LICENSE
