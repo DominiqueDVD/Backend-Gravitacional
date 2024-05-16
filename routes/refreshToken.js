@@ -6,43 +6,38 @@ const { generateAccessToken } = require("../auth/generateTokens");
 
 const router = require("express").Router();
 
-router.post("/", async (req, res) => { // Añade 'async' aquí
-
+router.post("/", async (req, res) => {
     const refreshToken = getTokenFromHeader(req.headers);
 
-    if(refreshToken){
-
-        try{
+    if (refreshToken) {
+        try {
             const found = await Token.findOne({ token: refreshToken });
-            if(!found){
+            if (!found) {
                 return res
                     .status(401)
-                    .send(jsonResponse(401, { error: "No autorizado"} ));
+                    .send(jsonResponse(401, { error: "No autorizado" }));
             }
 
             const payload = verifyRefreshToken(found.token);
 
-            if(payload){
+            if (payload) {
                 const accessToken = generateAccessToken(payload.user);
                 return res.status(200).json(jsonResponse(200, { accessToken }));
-            }else{
+            } else {
                 return res
                     .status(401)
                     .send(jsonResponse(401, { error: "No autorizado" }));
             }
-
-        }catch(error){
+        } catch (error) {
             return res
-                    .status(401)
-                    .send(jsonResponse(401, { error: "No autorizado" }));
-
+                .status(401)
+                .send(jsonResponse(401, { error: "No autorizado" }));
         }
-
-    }else{
-        res.status(401).send(jsonResponse(401, {error: "No autorizado"}))
+    } else {
+        // Si no hay token de refresco, enviar una respuesta 401
+        return res.status(401).send(jsonResponse(401, { error: "No autorizado" }));
     }
-
-    res.send("refresh token");
 });
+
 
 module.exports = router;
