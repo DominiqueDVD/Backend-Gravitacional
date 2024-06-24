@@ -1,4 +1,3 @@
-// routes/projects.js
 const express = require("express");
 const Project = require("../schema/project");
 const router = express.Router();
@@ -29,9 +28,15 @@ router.get("/:id", async (req, res) => {
 
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
-    const { name, points } = req.body;
+    const { name, description, userId, coordinates, thumbnail } = req.body;
     try {
-        const newProject = new Project({ name, points });
+        const newProject = new Project({
+            name,
+            description,
+            userId,
+            coordinates,
+            thumbnail
+        });
         await newProject.save();
         res.status(201).json(newProject);
     } catch (error) {
@@ -42,11 +47,11 @@ router.post("/", async (req, res) => {
 // Ruta para actualizar un proyecto
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, points } = req.body;
+    const { name, description, userId, coordinates, thumbnail } = req.body;
     try {
         const updatedProject = await Project.findByIdAndUpdate(
             id,
-            { name, points },
+            { name, description, userId, coordinates, thumbnail },
             { new: true, runValidators: true }
         );
         if (!updatedProject) {
