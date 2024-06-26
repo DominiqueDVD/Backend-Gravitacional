@@ -29,6 +29,12 @@ router.get("/:id", async (req, res) => {
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
     const { name, description, userId, coordinates, thumbnail } = req.body;
+    console.log("Post de un proyecto");
+    console.log(name);
+    console.log(description);
+    console.log(userId);
+    console.log(coordinates);
+    console.log(thumbnail);
     try {
         const newProject = new Project({
             name,
