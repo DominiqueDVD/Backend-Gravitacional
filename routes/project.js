@@ -43,10 +43,11 @@ router.post("/", async (req, res) => {
             coordinates,
             thumbnail
         });
-        await newProject.save();
+        console.log(await newProject.save());
         res.status(201).json(newProject);
     } catch (error) {
         res.status(500).json({ error: "Error al crear el proyecto" });
+        console.log(error);
     }
 });
 

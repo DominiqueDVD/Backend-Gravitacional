@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const app = express();
+mongoose.set('strictQuery', false);
 
 // Importa el enrutador para las rutas de los posts y proyectos
 const postRoutes = require("./routes/blog");
@@ -16,13 +17,6 @@ const port = process.env.PORT || 3100;
 app.use(cors());
 app.use(express.json());
 
-// Función principal para conectar a MongoDB
-async function main(){
-   await mongoose.connect(process.env.DB_CONNECTION_STRING);
-   console.log("Conectado a MongoDB");
-}
-main().catch(console.error);
-
 // Rutas
 app.use("/api/registrarse", require("./routes/registrarse"));
 app.use("/api/login", require("./routes/login"));
@@ -33,7 +27,22 @@ app.use("/api/blog", postRoutes);
 app.use("/api/foro", require("./routes/foro"));
 app.use("/api/project", projectRoutes);  // Agregar esta línea
 
-// Inicia el servidor
-app.listen(port, () => {
-    console.log(`El servidor está en ejecución en el puerto: ${port}`);
-});
+
+
+// Función principal para conectar a MongoDB
+const start = async () => {
+    try {
+        await mongoose.connect(process.env.DB_CONNECTION_STRING);
+        console.log("Conectado a MongoDB");
+
+        // Inicia el servidor
+        app.listen(port, () => {
+            console.log(`El servidor está en ejecución en el puerto: ${port}`);
+        });
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+// start.catch(console.error);
+
+start();

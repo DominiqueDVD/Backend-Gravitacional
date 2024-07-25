@@ -6,7 +6,7 @@ const ProjectSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    coordinates: { type: [[[Number]]], required: true },
+    coordinates: { type: Object, required: true },
     thumbnail: { type: String, required: true }
 });
 
