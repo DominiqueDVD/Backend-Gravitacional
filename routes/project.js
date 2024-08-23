@@ -26,39 +26,124 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// Rutas GET para obtener los nuevos elementos del proyecto
+
+// Obtener 'lineas' de un proyecto por ID
+router.get("/:id/lineas", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.lineas);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'lineas' del proyecto" });
+    }
+});
+
+// Obtener 'malla' de un proyecto por ID
+router.get("/:id/malla", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.malla);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'malla' del proyecto" });
+    }
+});
+
+// Obtener 'mallas' de un proyecto por ID
+router.get("/:id/mallas", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.mallas);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'mallas' del proyecto" });
+    }
+});
+
+// Obtener 'lineasdat' de un proyecto por ID
+router.get("/:id/lineasdat", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.lineasdat);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'lineasdat' del proyecto" });
+    }
+});
+
+// Obtener 'malladat' de un proyecto por ID
+router.get("/:id/malladat", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.malladat);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'malladat' del proyecto" });
+    }
+});
+
+// Obtener 'mallasdat' de un proyecto por ID
+router.get("/:id/mallasdat", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.mallasdat);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'mallasdat' del proyecto" });
+    }
+});
+
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
-    const { name, description, userId, coordinates, thumbnail } = req.body;
-    console.log("Post de un proyecto");
-    console.log(name);
-    console.log(description);
-    console.log(userId);
-    console.log(coordinates);
-    console.log(thumbnail);
+    const { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat } = req.body;
     try {
         const newProject = new Project({
             name,
             description,
             userId,
             coordinates,
-            thumbnail
+            thumbnail,
+            lineas,
+            malla,
+            mallas,
+            lineasdat,
+            malladat,
+            mallasdat
         });
-        console.log(await newProject.save());
+        await newProject.save();
         res.status(201).json(newProject);
     } catch (error) {
         res.status(500).json({ error: "Error al crear el proyecto" });
-        console.log(error);
     }
 });
 
 // Ruta para actualizar un proyecto
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, description, userId, coordinates, thumbnail } = req.body;
+    const { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat } = req.body;
     try {
         const updatedProject = await Project.findByIdAndUpdate(
             id,
-            { name, description, userId, coordinates, thumbnail },
+            { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat },
             { new: true, runValidators: true }
         );
         if (!updatedProject) {
