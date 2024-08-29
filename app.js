@@ -9,13 +9,18 @@ mongoose.set('strictQuery', false);
 const postRoutes = require("./routes/blog");
 const projectRoutes = require("./routes/project");
 
+const bodyParser = require('body-parser');
+
 // Configuración
 require("dotenv").config();
 const port = process.env.PORT || 3100;
 
 // Middleware
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors());
 app.use(express.json());
+
 
 // Rutas
 app.use("/api/registrarse", require("./routes/registrarse"));
@@ -26,7 +31,7 @@ app.use("/api/signout", require("./routes/signout"));
 app.use("/api/blog", postRoutes);
 app.use("/api/foro", require("./routes/foro"));
 app.use("/api/project", projectRoutes);  // Agregar esta línea
-
+app.use("/api/rhino", require("./routes/rhino"));
 
 
 // Función principal para conectar a MongoDB
@@ -34,6 +39,7 @@ const start = async () => {
     try {
         await mongoose.connect(process.env.DB_CONNECTION_STRING);
         console.log("Conectado a MongoDB");
+        // console.log('Limit file size: '+limit);
 
         // Inicia el servidor
         app.listen(port, () => {
