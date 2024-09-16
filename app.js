@@ -30,8 +30,9 @@ app.use("/api/refresh-token", require("./routes/refreshToken"));
 app.use("/api/signout", require("./routes/signout"));
 app.use("/api/blog", postRoutes);
 app.use("/api/foro", require("./routes/foro"));
-app.use("/api/project", projectRoutes);  // Agregar esta línea
+app.use("/api/project", projectRoutes);  
 app.use("/api/rhino", require("./routes/rhino"));
+app.use('/api/layer', require('./routes/layer'));
 
 
 // Función principal para conectar a MongoDB
