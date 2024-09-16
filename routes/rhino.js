@@ -18,20 +18,20 @@ router.post('/compute', async (req, res) => {
         // for each output (RH_OUT:*)...
         for (let i = 0; i < values.length; i++) {
             // ...iterate through data tree structure...
-            console.log("For 1: " + i)
+            // console.log("For 1: " + i)
             for (const path in values[i].InnerTree) {
-                console.log("For 2: " + values[i])
+                // console.log("For 2: " + values[i])
                 const branch = values[i].InnerTree[path]
                 // console.log(branch)
                 // ...and for each branch...
                 for (let j = 0; j < branch.length; j++) {
-                    console.log("For 3: " + j)
+                    // console.log("For 3: " + j)
                     // console.log(branch[j]);
                     // ...load rhino geometry into doc
                     const rhinoObject = decodeItem(branch[j], rhino)
                     // console.log(rhinoObject);
                     if (rhinoObject !== null) {
-                        console.log("!= null")
+                        // console.log("!= null")
                         doc.objects().add(rhinoObject, null)
                     }
                 }
@@ -39,6 +39,7 @@ router.post('/compute', async (req, res) => {
         }
 
         const buffer = new Uint8Array(doc.toByteArray()).buffer
+        console.log(buffer)
         
         // Enviar el buffer directamente como binario
         res.setHeader('Content-Type', 'application/octet-stream');
