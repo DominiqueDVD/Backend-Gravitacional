@@ -114,20 +114,35 @@ router.get("/:id/mallasdat", async (req, res) => {
 
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
-    const { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat } = req.body;
+    const {  projectId,
+        projectName,
+        projectDescription,
+        userId,
+        coordinates,
+        coordinatesCenter,
+        thumbnail,
+        lines,
+        mesh,
+        hillsides,
+        climatic,
+        soils,
+        matrix} = req.body;
     try {
         const newProject = new Project({
-            name,
-            description,
+            projectId,
+            projectName,
+            projectDescription,
             userId,
             coordinates,
+            coordinatesCenter,
             thumbnail,
-            lineas,
-            malla,
-            mallas,
-            lineasdat,
-            malladat,
-            mallasdat
+            lines,
+            mesh,
+            hillsides,
+            climatic,
+            soils,
+            matrix
+           
         });
         await newProject.save();
         res.status(201).json(newProject);
@@ -139,11 +154,11 @@ router.post("/", async (req, res) => {
 // Ruta para actualizar un proyecto
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat } = req.body;
+    const { projectName, projectDescription, soils, matrix } = req.body;// revisar actualización de proyecto
     try {
         const updatedProject = await Project.findByIdAndUpdate(
             id,
-            { name, description, userId, coordinates, thumbnail, lineas, malla, mallas, lineasdat, malladat, mallasdat },
+            { name, description },
             { new: true, runValidators: true }
         );
         if (!updatedProject) {
