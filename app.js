@@ -25,15 +25,22 @@ app.use(express.json());
 // Rutas
 app.use("/api/registrarse", require("./routes/registrarse"));
 app.use("/api/login", require("./routes/login"));
-app.use("/api/user", require("./routes/user"));
+// app.use("/api/user", require("./routes/user"));
 app.use("/api/refresh-token", require("./routes/refreshToken"));
 app.use("/api/signout", require("./routes/signout"));
 app.use("/api/blog", postRoutes);
 app.use("/api/foro", require("./routes/foro"));
-app.use("/api/project", projectRoutes);  
+app.use("/api/project", projectRoutes);
 app.use("/api/rhino", require("./routes/rhino"));
 app.use('/api/layer', require('./routes/layer'));
 
+app.get('/', (req, res) => {
+    res.send('El servidor está funcionando correctamente.');
+});
+
+app.get('/healthcheck', (req, res) => {
+    res.status(200).send('Status Ok. El servidor está funcionando correctamente.');
+  });
 
 // Función principal para conectar a MongoDB
 const start = async () => {
