@@ -114,39 +114,39 @@ router.get("/:id/mallasdat", async (req, res) => {
 
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
-    const {  projectId,
-        projectName,
-        projectDescription,
+    const {  ID,
+        name,
+        description,
         userId,
         coordinates,
         coordinatesCenter,
         thumbnail,
-        lines,
-        mesh,
-        hillsides,
+        lineas,
+        malla,
+        laderas,
         climatic,
-        soils,
-        matrix} = req.body;
+        suelos,
+        matriz} = req.body;
     try {
         const newProject = new Project({
-            projectId,
-            projectName,
-            projectDescription,
+            ID,
+            name,
+            description,
             userId,
             coordinates,
             coordinatesCenter,
             thumbnail,
-            lines,
-            mesh,
-            hillsides,
+            lineas,
+            malla,
+            laderas,
             climatic,
-            soils,
-            matrix
-           
+            suelos,
+            matriz
         });
         await newProject.save();
         res.status(201).json(newProject);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: "Error al crear el proyecto" });
     }
 });

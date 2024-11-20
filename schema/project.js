@@ -15,8 +15,6 @@ const ProjectSchema = new mongoose.Schema({
     laderas: { type: Object, required: false },
     suelos: { type: Object, required: false },
     matriz: { type: Object, required: false },
-
-
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);
