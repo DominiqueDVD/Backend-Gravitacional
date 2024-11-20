@@ -27,7 +27,7 @@ app.use("/api/registrarse", require("./routes/registrarse"));
 app.use("/api/login", require("./routes/login"));
 // app.use("/api/user", require("./routes/user"));
 app.use("/api/refresh-token", require("./routes/refreshToken"));
-app.use("/api/signout", require("./routes/signout"));
+// app.use("/api/signout", require("./routes/signout"));
 app.use("/api/blog", postRoutes);
 app.use("/api/foro", require("./routes/foro"));
 app.use("/api/project", projectRoutes);
