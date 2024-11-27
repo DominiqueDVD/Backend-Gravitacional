@@ -2,24 +2,16 @@ const express = require("express");
 const Project = require("../schema/project");
 const router = express.Router();
 
-// Ruta para obtener todos los proyectos
-router.get("/", async (req, res) => {
-    try {
-        const projects = await Project.find();
-        res.status(200).json(projects);
-    } catch (error) {
-        res.status(500).json({ error: "Error al obtener los proyectos" });
-    }
-});
-
 // Ruta para obtener un proyecto por ID
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
+    console.log("Buscando proyecto con ID " + id);
     try {
         const project = await Project.findById(id);
         if (!project) {
             return res.status(404).json({ error: "Proyecto no encontrado" });
         }
+        console.log("Status 200, encontrado proyecto con ID " + id)
         res.status(200).json(project);
     } catch (error) {
         res.status(500).json({ error: "Error al obtener el proyecto" });
@@ -109,6 +101,16 @@ router.get("/:id/mallasdat", async (req, res) => {
         res.status(200).json(project.mallasdat);
     } catch (error) {
         res.status(500).json({ error: "Error al obtener 'mallasdat' del proyecto" });
+    }
+});
+
+// Ruta para obtener todos los proyectos
+router.get("/", async (req, res) => {
+    try {
+        const projects = await Project.find();
+        res.status(200).json(projects);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener los proyectos" });
     }
 });
 
