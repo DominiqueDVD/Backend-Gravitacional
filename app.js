@@ -23,16 +23,16 @@ app.use(express.json());
 
 
 // Rutas
-app.use("/api/registrarse", require("./routes/registrarse"));
-app.use("/api/login", require("./routes/login"));
+app.use("/registrarse", require("./routes/registrarse"));
+app.use("/login", require("./routes/login"));
 // app.use("/api/user", require("./routes/user"));
-app.use("/api/refresh-token", require("./routes/refreshToken"));
+app.use("/refresh-token", require("./routes/refreshToken"));
 // app.use("/api/signout", require("./routes/signout"));
-app.use("/api/blog", postRoutes);
-app.use("/api/foro", require("./routes/foro"));
-app.use("/api/project", projectRoutes);
-app.use("/api/rhino", require("./routes/rhino"));
-app.use('/api/layer', require('./routes/layer'));
+app.use("/blog", postRoutes);
+app.use("/foro", require("./routes/foro"));
+app.use("/project", require("./routes/project"));
+app.use("/rhino", require("./routes/rhino"));
+app.use('/layer', require('./routes/layer'));
 
 app.get('/', (req, res) => {
     res.send('El servidor está funcionando correctamente.');
