@@ -7,17 +7,26 @@ router.post('/compute', async (req, res) => {
     console.log("Compute")
     console.log(req.body)
     try {
+        // Verifica si los datos necesarios están presentes
+        
         const rhino = await rhino3dm();
 
         let values = req.body.values
 
         console.log(`Values: ${values}`)
+        if (!values) {
+            return res.status(400).json({
+                success: false,
+                message: "Faltan datos en la solicitud",
+                code: "BAD_REQUEST",
+            });
+        }
 
         let doc = new rhino.File3dm()
 
         // for each output (RH_OUT:*)...
         for (let i = 0; i < values.length; i++) {
-        // for (let i = 1; i <= 1; i++) {
+            // for (let i = 1; i <= 1; i++) {
             // ...iterate through data tree structure...
             console.log("For 1: " + i)
             for (const path in values[i].InnerTree) {
@@ -39,15 +48,23 @@ router.post('/compute', async (req, res) => {
             }
         }
 
-        const buffer = new Uint8Array(doc.toByteArray()).buffer
-        console.log(buffer)
-        
-        // Enviar el buffer directamente como binario
-        res.setHeader('Content-Type', 'application/octet-stream');
-        res.setHeader('Content-Length', buffer.byteLength);
-        res.send(Buffer.from(buffer));
-    } catch (e) {
-        console.error(`Error ${e}`)
+        const buffer = new Uint8Array(doc.toByteArray()).buffer;
+        console.log(buffer);
+
+        // Enviar el buffer directamente como binario con un status 200
+        res.status(200)
+            .setHeader('Content-Type', 'application/octet-stream')
+            .setHeader('Content-Length', buffer.byteLength)
+            .send(Buffer.from(buffer));
+    } catch (error) {
+        console.error("Error en /compute:", error);
+
+        // Manejo de errores generales
+        res.status(500).json({
+            success: false,
+            message: error.message || "Error interno del servidor",
+            code: error.code || "INTERNAL_SERVER_ERROR",
+        });
     }
 });
 
@@ -63,12 +80,11 @@ function decodeItem(item, rhino) {
             return rhino.DracoCompression.decompressBase64String(data)
         } catch {
             console.error("Error decodeItem");
-
         } // ignore errors (maybe the string was just a string...)
     } else if (typeof data === 'object') {
         return rhino.CommonObject.decode(data)
     }
-    return null
+    return null;
 }
 
 module.exports = router;
