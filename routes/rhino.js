@@ -28,14 +28,11 @@ router.post('/compute', async (req, res) => {
         for (let i = 0; i < values.length; i++) {
             // for (let i = 1; i <= 1; i++) {
             // ...iterate through data tree structure...
-            console.log("For 1: " + i)
             for (const path in values[i].InnerTree) {
-                console.log("For 2: " + values[i])
                 const branch = values[i].InnerTree[path]
                 // console.log(branch)
                 // ...and for each branch...
                 for (let j = 0; j < branch.length; j++) {
-                    console.log("For 3: " + j)
                     console.log(branch[j]);
                     // ...load rhino geometry into doc
                     const rhinoObject = decodeItem(branch[j], rhino)

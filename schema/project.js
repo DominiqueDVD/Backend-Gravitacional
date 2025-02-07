@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ProjectSchema = new mongoose.Schema({
-    ID: {type: String, required: true},
+    // _id: {type: String, required: false},
     name: { type: String, required: true },
     description: { type: String, required: true },
     userId: { type: String, required: true },
@@ -15,6 +15,9 @@ const ProjectSchema = new mongoose.Schema({
     laderas: { type: Object, required: false },
     suelos: { type: Object, required: false },
     matriz: { type: Object, required: false },
+    arJson: { type: Object, required: false },
+    genJson: { type: Object, required: false },
+    lineasJson: { type: Object, required: false }
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

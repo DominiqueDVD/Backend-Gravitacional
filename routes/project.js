@@ -104,8 +104,51 @@ router.get("/:id/mallasdat", async (req, res) => {
     }
 });
 
+// Obtener 'arJson' de un proyecto por ID
+router.get("/:id/arjson", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.arJson);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'arJson' del proyecto" });
+    }
+});
+
+// Obtener 'genJson' de un proyecto por ID
+router.get("/:id/genjson", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.genJson);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'genJson' del proyecto" });
+    }
+});
+
+// Obtener 'lineasJson' de un proyecto por ID
+router.get("/:id/lineasjson", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findById(id);
+        if (!project) {
+            return res.status(404).json({ error: "Proyecto no encontrado" });
+        }
+        res.status(200).json(project.lineasJson);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener 'lineasJson' del proyecto" });
+    }
+});
+
 // Ruta para obtener todos los proyectos
 router.get("/", async (req, res) => {
+    console.log("Obteniendo proyectos...");
     try {
         const projects = await Project.find();
         res.status(200).json(projects);
@@ -116,7 +159,8 @@ router.get("/", async (req, res) => {
 
 // Ruta para crear un nuevo proyecto
 router.post("/", async (req, res) => {
-    const {  ID,
+    const {  
+        // ID,
         name,
         description,
         userId,
@@ -128,10 +172,13 @@ router.post("/", async (req, res) => {
         laderas,
         climatic,
         suelos,
-        matriz} = req.body;
+        matriz,
+        arJson,
+        genJson,
+        lineasJson} = req.body;
     try {
         const newProject = new Project({
-            ID,
+            // ID,
             name,
             description,
             userId,
@@ -143,7 +190,10 @@ router.post("/", async (req, res) => {
             laderas,
             climatic,
             suelos,
-            matriz
+            matriz,
+            arJson,
+            genJson,
+            lineasJson
         });
         await newProject.save();
         res.status(201).json(newProject);
